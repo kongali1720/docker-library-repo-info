@@ -1,49 +1,65 @@
-# docker-library-repo-info-
- docker-library-bot Run scan-local.sh on ubuntu:... 
- 
- #!/usr/bin/env bash
-set -Eeuo pipefail
+# docker-library-repo-info
 
-_apk() {
-	apk --no-network "$@" 2>/dev/null
-}
+Repositori ini berisi skrip untuk menghasilkan informasi tambahan tentang image resmi Docker, seperti detail lisensi dan layer.
 
-IFS=$'\n'
-packages=( $(_apk info | sort) )
-unset IFS
+## Cara Penggunaan
 
-if [ "${#packages[@]}" -eq 0 ]; then
-	# not Alpine-based?
-	exit 1
-fi
+1. Jalankan `scan-local.sh` untuk memindai image lokal.
+2. Hasil pemindaian akan disimpan dalam format Markdown di direktori `repos/`.
 
-echo
-echo '## `apk` (`.apk`-based packages)'
+## Catatan
 
-# prints "$2$1$3$1...$N"
-join() {
-	local sep="$1"; shift
-	local out; printf -v out "${sep//%/%%}%s" "$@"
-	echo "${out#$sep}"
-}
+- Pastikan memiliki akses ke image Docker yang ingin dipindai.
+- Skrip ini dirancang untuk digunakan dalam lingkungan Linux dengan akses ke perintah `docker`.
+---
+✅ Langkah Selanjutnya
 
-for pkg in "${packages[@]}"; do
-	if [ "${pkg#.}" != "$pkg" ]; then
-		# if package name starts with a period, it's a pretty strong indicator that it's likely a user-created virtual and thus safely ignored for the purposes of this report
-		continue
-	fi
+Setelah itu ikuti langkah ini:
 
-	echo
-	echo '### `apk` package: `'"$pkg"'`'
+    Gunakan skrip scan-local.sh untuk memindai image Docker lokal.
 
-	# TODO parse this output better somehow (can't find a way to get `apk info` to spit out just the value without the `xyz-VERSION license:` header)
-	echo
-	echo '```console'
-	_apk info \
-		--description \
-		--license \
-		--size \
-		--webpage \
-		"$pkg"
-	echo '```'
-done
+    Periksa hasil pemindaian di direktori repos/.
+
+    Jika perlu, tambahkan skrip tambahan untuk memproses atau menganalisis data lebih lanjut.
+---
+SELAMAT MENCOBA 
+---
+
+## ☕ Dukung aku agar tetap waras menulis script tengah malam...
+
+👉 [Buy Me a Coffee via PayPal](https://www.paypal.com/paypalme/bungtempong99) 👈  
+Support with 💸 so I can buy ☕ and keep being 🔥!
+
+---
+
+## 📫 Let’s Connect Like Hackers
+
+- 🧙 GitHub: [kongali1720](https://github.com/kongali1720)
+- 💌 Email: [kongali1720@gmail.com](mailto:kongali1720@gmail.com)
+- 🕵️‍♂️ Site: Coming soon — stay curious...
+
+---
+
+💻 INITIATING HUMANITY MODE...
+
+🎯 Target Locked: Anak-anak Pejuang Down Syndrome  
+🩺 Status: Butuh Dukungan  
+❤️ Response: Buka Hati + Klik Link = Satu Senyum Baru
+
+🧬 Mereka bukan berbeda — mereka dilahirkan untuk mengajarkan dunia tentang cinta yang murni dan kesabaran yang luar biasa.
+
+👣 Setiap langkah kecil mereka = Keajaiban besar.
+
+⚡ Bantu mereka melangkah lebih jauh, dengan caramu sendiri.
+
+<p align="center">
+  <a href="https://mydonation4ds.github.io/" target="_blank">
+    <img src="https://img.shields.io/badge/SUPPORT--NOW-%F0%9F%A7%A1-orange?style=for-the-badge&logo=heart" />
+  </a>
+</p>
+
+"Karena jadi hacker hati bukan cuma soal kode... tapi juga soal peduli." 🖤
+
+"Ngoding boleh sambil senyum, asal jangan inject SQL sambil ngambek!" 😜
+
+---
